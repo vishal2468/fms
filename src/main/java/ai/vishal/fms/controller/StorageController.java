@@ -1,5 +1,6 @@
 package ai.vishal.fms.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import com.google.cloud.storage.Blob;
@@ -11,14 +12,13 @@ import com.google.cloud.storage.StorageOptions;
 import java.io.IOException;
 import java.nio.file.Paths;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
 public class StorageController {
 
-  @RequestMapping("/upload")
-  public String uploadObject() throws IOException{
+  @GetMapping("/upload")
+  public ResponseEntity<String> uploadObject() throws IOException{
     // The ID of your GCP project
     String projectId = "fifth-diode-358105";
 
@@ -53,12 +53,12 @@ public class StorageController {
     }
     storage.createFrom(blobInfo, Paths.get(filePath), precondition);
 
-    return 
-            "File %s uploaded to bucket %s as %s".formatted(filePath, bucketName, objectName);
+    return
+            ResponseEntity.ok("File %s uploaded to bucket %s as %s".formatted(filePath, bucketName, objectName));
   }
 
   @GetMapping("/download")
-  public String downloadObject() {
+  public ResponseEntity<String> downloadObject() {
     // The ID of your GCP project
     String projectId = "fifth-diode-358105";
 
@@ -75,7 +75,12 @@ public class StorageController {
 
     Blob blob = storage.get(BlobId.of(bucketName, objectName));
     blob.downloadTo(Paths.get(destFilePath));
-    return 
-            "File %s downloaded from bucket %s as %s".formatted(destFilePath, bucketName, objectName);
+    return
+            ResponseEntity.ok("File %s downloaded from bucket %s as %s".formatted(destFilePath, bucketName, objectName));
+  }
+
+  @GetMapping("/test")
+  public ResponseEntity<String> test() {
+    return ResponseEntity.ok("hi");
   }
 }
