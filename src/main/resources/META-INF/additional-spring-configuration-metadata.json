@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "gcp.bucket.name",
+  "type": "java.lang.String",
+  "description": "GCP bucket name where we store all the files"
+}]}
