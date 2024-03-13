@@ -59,9 +59,6 @@ public class BusinessController {
     @GetMapping("/{businessId}")
     public ResponseEntity<Business> getBusiness(@PathVariable int businessId) {
         Optional<Business> business = businessService.getBusiness(businessId);
-        if(business.isPresent())
-            return ResponseEntity.ok(business.get());
-        else
-            return ResponseEntity.notFound().build();
+        return business.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

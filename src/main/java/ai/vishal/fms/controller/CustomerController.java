@@ -44,10 +44,7 @@ public class CustomerController {
     @GetMapping("/c/{customerId}")
     public ResponseEntity<Customer> getCustomerById(@PathVariable String customerId) {
         Optional<Customer> customer = customerService.findById(Integer.parseInt(customerId));
-        if(customer.isPresent()){
-            return ResponseEntity.ok(customer.get());
-        }
-        return ResponseEntity.badRequest().build();
+        return customer.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
     @GetMapping("file/link/upload/c/{customerId}/b/{businessId}/f/{fileName}")
