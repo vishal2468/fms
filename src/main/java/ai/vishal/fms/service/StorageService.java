@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileInputStream;
@@ -84,7 +83,7 @@ public class StorageService {
     return "curl '" + url + "'";
   }
 
-  public String uploadFile(String filePath , MultipartFile file) {
+  public boolean uploadFile(String filePath , MultipartFile file) {
         try {
             String blobName = filePath+"/"+file.getOriginalFilename();
 
@@ -98,10 +97,10 @@ public class StorageService {
             // Upload file content to GCP storage
             storage.create(blobInfo, file.getInputStream().readAllBytes());
 
-            return "File uploaded successfully!";
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
-            return "Failed to upload file: " + e.getMessage();
+            return false;
         }
     }
 

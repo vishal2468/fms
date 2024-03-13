@@ -1,5 +1,6 @@
 package ai.vishal.fms.controller;
 import ai.vishal.fms.model.dto.Customer;
+import ai.vishal.fms.model.dto.Document;
 import ai.vishal.fms.model.request.AddCustomerRequest;
 import ai.vishal.fms.model.request.UpdateCustomer;
 import ai.vishal.fms.service.CustomerService;
@@ -64,9 +65,11 @@ public class CustomerController {
     }
 
     @PostMapping("file/c/{customerId}/b/{businessId}")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file , @PathVariable String customerId , @PathVariable String businessId) {
-        if(customerService.findById(Integer.parseInt(customerId)).isPresent()){
-            return ResponseEntity.ok(customerService.uploadFile(file ,customerId, businessId));
+    public ResponseEntity<String> uploadFileToCustomer(@RequestParam("file") MultipartFile file , @PathVariable String customerId , @PathVariable String businessId) {
+        Optional<Customer> customer = customerService.findById(Integer.parseInt(customerId));
+        if(customer.isPresent()){
+            customerService.uploadCustomerFile(file, customer.get(), businessId);
+            return ResponseEntity.ok("Upload success");
         }
         return ResponseEntity.badRequest().build();
     }
