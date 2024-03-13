@@ -8,9 +8,9 @@ import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.GetMapping;
 
 
 
@@ -50,13 +50,28 @@ public class CustomerController {
         return ResponseEntity.badRequest().build();
     }
 
-    @GetMapping("c/{customerId}/b/{businessId}/f/{fileName}")
+    @GetMapping("file/link/upload/c/{customerId}/b/{businessId}/f/{fileName}")
     public ResponseEntity<String> getDocumentUplaodUrl(@PathVariable String customerId , @PathVariable String businessId , @PathVariable String fileName) {
         if(customerService.findById(Integer.parseInt(customerId)).isPresent()){
             return ResponseEntity.ok(customerService.getDocumentUplaodUrlBy(customerId, businessId, fileName));
         }
         return ResponseEntity.badRequest().build();
     }
-    
 
+    @GetMapping("file/link/download/c/{customerId}/b/{businessId}/f/{fileName}")
+    public ResponseEntity<String> getDocumentDownloadUrl(@PathVariable String customerId , @PathVariable String businessId , @PathVariable String fileName) {
+        if(customerService.findById(Integer.parseInt(customerId)).isPresent()){
+            return ResponseEntity.ok(customerService.getDocumentDownloadUrlBy(customerId, businessId, fileName));
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
+    @PostMapping("file/c/{customerId}/b/{businessId}")
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file , @PathVariable String customerId , @PathVariable String businessId) {
+        if(customerService.findById(Integer.parseInt(customerId)).isPresent()){
+            return ResponseEntity.ok(customerService.uploadFile(file ,customerId, businessId));
+        }
+        return ResponseEntity.badRequest().build();
+    }
+    
 }

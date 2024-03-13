@@ -33,11 +33,17 @@ public class BusinessController {
 
         Customer customer = new Customer();
         customer.setCustomerName("customer1");
-        business.setCustomers(Arrays.asList(customer));
         customer.setBusiness(business);
 
+        Customer customer2 = new Customer();
+        customer2.setCustomerName("customer2");
+        customer2.setBusiness(business);
+
+        business.setCustomers(Arrays.asList(customer , customer2));
+        
+
         Business response = businessService.addBusiness(business);
-        customerService.addCustomer(customer);
+        customerService.addAllCustomers(business.getCustomers());
         return ResponseEntity.ok(response);
     }
     @PutMapping("/{businessId}")
