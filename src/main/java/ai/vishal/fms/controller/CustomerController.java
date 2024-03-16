@@ -30,8 +30,8 @@ public class CustomerController {
         Customer customer = new Customer();
         customer.setCustomerName(request.getCustomerName());
         customerService.addCustomer(customer);
-
     }
+
     @PutMapping("/c/{customerId}")
     public void updateCustomer(@RequestBody UpdateCustomer request , @PathVariable String customerId) {
         customerService.updateCustomer(request, customerId);

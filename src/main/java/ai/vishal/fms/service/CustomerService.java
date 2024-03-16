@@ -6,7 +6,9 @@ import ai.vishal.fms.model.request.UpdateCustomer;
 import ai.vishal.fms.repository.CustomerRepository;
 import ai.vishal.fms.repository.DocumentRepository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -31,6 +33,7 @@ public class CustomerService {
 
     public void deleteCustomer(String customerId) {
 
+
     }
 
     public Optional<Customer> findById(int customerId) {
@@ -54,7 +57,10 @@ public class CustomerService {
     public Optional<Document> uploadCustomerFile(MultipartFile file, Customer customer, String businessId) {
         String filePath = businessId + "/" + customer.getCustomerId();
         // need to update the customer when a file is uploaded
-        if(storageService.uploadFile(filePath, file)){
+        Map<String, String> metadata = new HashMap<>();
+        metadata.put("business", businessId);
+        metadata.put("customer", String.valueOf(customer.getCustomerId()));
+        if(storageService.uploadFile(filePath, file , metadata)){
             Document document = new Document();
             document.setCustomer(customer);
             document.setResourcePath(filePath+"/"+file.getOriginalFilename());

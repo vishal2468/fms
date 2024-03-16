@@ -83,13 +83,14 @@ public class StorageService {
     return "curl '" + url + "'";
   }
 
-  public boolean uploadFile(String filePath , MultipartFile file) {
+  public boolean uploadFile(String filePath , MultipartFile file, Map<String, String> metadata) {
         try {
             String blobName = filePath+"/"+file.getOriginalFilename();
 
             // Create BlobInfo object with appropriate metadata
             BlobInfo blobInfo = BlobInfo.newBuilder(BlobId.of(gcpBucketName, blobName))
                                         .setContentType(file.getContentType())
+                                        .setMetadata(metadata)
                                         .build();
 
             Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();

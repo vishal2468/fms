@@ -40,7 +40,6 @@ public class BusinessController {
         customer2.setBusiness(business);
 
         business.setCustomers(Arrays.asList(customer , customer2));
-        
 
         Business response = businessService.addBusiness(business);
         customerService.addAllCustomers(business.getCustomers());
