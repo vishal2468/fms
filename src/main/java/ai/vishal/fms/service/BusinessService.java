@@ -25,12 +25,12 @@ public class BusinessService {
         // Update business to database
     }
 
-    public void deleteBusiness(String id) {
+    public void deleteBusiness(String businessId) {
         // delete business
     }
 
-    public Optional<Business> getBusiness(int id) {
+    public Optional<Business> getBusiness(String businessId) {
         // get business
-        return businessRepository.findById(id);
+        return businessRepository.findById(businessId);
     }
 }

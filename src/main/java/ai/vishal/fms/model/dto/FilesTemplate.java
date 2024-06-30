@@ -4,13 +4,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Data;
 
-@Data
 @Entity
-public class Document {
+@Data
+public abstract class FilesTemplate {
     @Id
-    int documentId;
+    String id;
+    String name;
+    String desc;
+    int year;
 
-    String resourcePath;
-
-    String description;
 }

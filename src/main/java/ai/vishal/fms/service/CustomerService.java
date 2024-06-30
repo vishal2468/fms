@@ -2,12 +2,12 @@ package ai.vishal.fms.service;
 
 import ai.vishal.fms.model.dto.Customer;
 import ai.vishal.fms.model.dto.Document;
+import ai.vishal.fms.model.request.AddCustomerRequest;
 import ai.vishal.fms.model.request.UpdateCustomer;
 import ai.vishal.fms.repository.CustomerRepository;
 import ai.vishal.fms.repository.DocumentRepository;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -27,21 +27,27 @@ public class CustomerService {
         this.documentRepository = documentRepository;
     }
     
-    public void addCustomer(Customer customer) {
+    public void addCustomer(AddCustomerRequest addCustomerRequest , String businessId) {
+        Customer customer = new Customer();
+        customer.setCustomerName(addCustomerRequest.getCustomerName());
+        customer.setBusinessId(businessId);
         customerRepository.save(customer);
     }
 
     public void deleteCustomer(String customerId) {
-
-
+        customerRepository.deleteById(customerId);
     }
 
-    public Optional<Customer> findById(int customerId) {
+    public Optional<Customer> findById(String customerId) {
         return customerRepository.findById(customerId);
     }
 
     public void updateCustomer(UpdateCustomer request, String customerId) {
-        
+        Optional<Customer> customer = customerRepository.findById(customerId);
+        if(customer.isPresent()){
+            customer.get().setCustomerName(request.getCustomerName());
+            customerRepository.save(customer.get());
+        }
     }
 
     public String getDocumentUplaodUrlBy(String customerId, String businessId, String fileName) {
@@ -62,19 +68,12 @@ public class CustomerService {
         metadata.put("customer", String.valueOf(customer.getCustomerId()));
         if(storageService.uploadFile(filePath, file , metadata)){
             Document document = new Document();
-            document.setCustomer(customer);
             document.setResourcePath(filePath+"/"+file.getOriginalFilename());
-            customer.getDocuments().add(document);
-
             documentRepository.save(document);
             customerRepository.save(customer);
-
             return Optional.of(document);
         }
         return Optional.empty();
     }
 
-    public void addAllCustomers(List<Customer> list) {
-        customerRepository.saveAll(list);
-    }
 }
