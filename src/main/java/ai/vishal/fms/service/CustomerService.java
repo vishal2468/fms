@@ -76,4 +76,8 @@ public class CustomerService {
         return Optional.empty();
     }
 
+    public Iterable<Customer> getAllCustomersBy(String businessId) {
+        return customerRepository.findAllByBusinessId(businessId);
+    }
+
 }

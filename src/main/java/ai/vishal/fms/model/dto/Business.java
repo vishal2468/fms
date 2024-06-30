@@ -19,4 +19,6 @@ public class Business {
     String businessName;
 
     BusinessType businessType;
+
+    String description;
 }

@@ -21,12 +21,15 @@ public class BusinessService {
         return  businessRepository.save(business);
     }
 
-    public void updateBusiness(UpdateBusiness business , String businessId) {
-        // Update business to database
+    public void updateBusiness(UpdateBusiness updateBusiness , String businessId) {
+        Business business = businessRepository.findById(businessId).orElseThrow(() -> new RuntimeException("Resource not found"));
+        business.setBusinessName(updateBusiness.getBusinessName());
+        business.setDescription(updateBusiness.getDescription());
     }
 
     public void deleteBusiness(String businessId) {
         // delete business
+        businessRepository.deleteById(businessId);
     }
 
     public Optional<Business> getBusiness(String businessId) {
