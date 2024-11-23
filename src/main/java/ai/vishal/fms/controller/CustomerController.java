@@ -51,18 +51,18 @@ public class CustomerController {
         return customer.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
-    @GetMapping("file/link/upload/c/{customerId}/b/{businessId}/f/{fileName}")
-    public ResponseEntity<String> getDocumentUplaodUrl(@PathVariable String customerId , @PathVariable String businessId , @PathVariable String fileName) {
+    @PostMapping("file/link/upload/c/{customerId}/b/{businessId}")
+    public ResponseEntity<String> getDocumentUplaodUrl(@PathVariable String customerId , @PathVariable String businessId , @RequestBody DocumentDetails details) {
         if(customerService.findById(customerId).isPresent()){
-            return ResponseEntity.ok(customerService.getDocumentUplaodUrlBy(customerId, businessId, fileName));
+            return ResponseEntity.ok(customerService.getDocumentUplaodUrlBy(customerId, businessId, details));
         }
         return ResponseEntity.badRequest().build();
     }
 
-    @GetMapping("file/link/download/c/{customerId}/b/{businessId}/f/{fileName}")
-    public ResponseEntity<String> getDocumentDownloadUrl(@PathVariable String customerId , @PathVariable String businessId , @PathVariable String fileName) {
+    @GetMapping("file/link/download/c/{customerId}/b/{businessId}")
+    public ResponseEntity<String> getDocumentDownloadUrl(@PathVariable String customerId , @PathVariable String businessId , @RequestBody DocumentDetails details) {
         if(customerService.findById(customerId).isPresent()){
-            return ResponseEntity.ok(customerService.getDocumentDownloadUrlBy(customerId, businessId, fileName));
+            return ResponseEntity.ok(customerService.getDocumentDownloadUrlBy(customerId, businessId, details));
         }
         return ResponseEntity.badRequest().build();
     }

@@ -19,6 +19,8 @@ public class Customer  {
     
     String businessId;
 
+    BusinessType businessType;
+
     List<String> templateIds;
 
 }

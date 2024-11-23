@@ -7,4 +7,5 @@ public class DocumentDetails {
     String name;
     String description;
     int year;
+    String type;
 }
