@@ -1,7 +1,5 @@
 package ai.vishal.fms.model.dto;
 
-import java.util.List;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -16,11 +14,7 @@ public class Customer  {
     String customerId;
 
     String customerName;
-    
+
     String businessId;
-
-    BusinessType businessType;
-
-    List<String> templateIds;
 
 }

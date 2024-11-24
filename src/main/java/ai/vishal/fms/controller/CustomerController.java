@@ -4,7 +4,6 @@ import ai.vishal.fms.model.dto.DocumentDetails;
 import ai.vishal.fms.model.request.AddCustomerRequest;
 import ai.vishal.fms.model.request.UpdateCustomer;
 import ai.vishal.fms.service.CustomerService;
-import ai.vishal.fms.service.TemplateService;
 
 import java.util.Optional;
 
@@ -12,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 
 
@@ -21,12 +22,12 @@ public class CustomerController {
 
     CustomerService customerService;
 
-    TemplateService templateService;
+//    TemplateService templateService;
 
 
-    public CustomerController(CustomerService customerService , TemplateService templateService) {
+    public CustomerController(CustomerService customerService ) {
         this.customerService = customerService;
-        this.templateService = templateService;
+//        this.templateService = templateService;
 
     }
 
@@ -69,7 +70,7 @@ public class CustomerController {
 
     @PostMapping("file/upload/c/{customerId}")
     public void addCustomerDocumentDetails(@RequestBody DocumentDetails documentDetails , @PathVariable String customerId){
-        templateService.addFileDetails(documentDetails, customerId);
+//        templateService.addFileDetails(documentDetails, customerId);
     }
     
 }

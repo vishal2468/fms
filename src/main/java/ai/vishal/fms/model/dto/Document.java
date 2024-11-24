@@ -1,5 +1,6 @@
 package ai.vishal.fms.model.dto;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Data;
@@ -12,5 +13,8 @@ public class Document {
 
     String resourcePath;
 
+    @Column(name = "description")
     String description;
+
+    String businessId;
 }

@@ -3,7 +3,6 @@ package ai.vishal.fms.service;
 import ai.vishal.fms.model.dto.Customer;
 import ai.vishal.fms.model.dto.Document;
 import ai.vishal.fms.model.dto.DocumentDetails;
-import ai.vishal.fms.model.dto.FilesTemplate;
 import ai.vishal.fms.model.request.AddCustomerRequest;
 import ai.vishal.fms.model.request.UpdateCustomer;
 import ai.vishal.fms.repository.CustomerRepository;
@@ -22,9 +21,8 @@ public class CustomerService {
     CustomerRepository customerRepository;
     StorageService storageService;
     DocumentRepository documentRepository;
-    TemplateService templateService;
 
-    public CustomerService(CustomerRepository customerRepository , StorageService storageService , DocumentRepository documentRepository , TemplateService templateService) {
+    public CustomerService(CustomerRepository customerRepository , StorageService storageService , DocumentRepository documentRepository ) {
         this.customerRepository = customerRepository;
         this.storageService = storageService;
         this.documentRepository = documentRepository;
@@ -54,16 +52,13 @@ public class CustomerService {
     }
 
     public String getDocumentUplaodUrlBy(String customerId, String businessId, DocumentDetails details) {
-        String filePath = templateService.getTemplate(customerId).get().getResourcePath(details);
-        String fileName = details.getName();
-        return storageService.generateV4PutObjectSignedUrl(filePath, fileName);
+        String filePath = businessId + "/" + customerId +"/";
+        return storageService.generateV4PutObjectSignedUrl(filePath, details.getName());
     }
 
     public String getDocumentDownloadUrlBy(String customerId, String businessId, DocumentDetails details) {
         String filePath = businessId + "/" + customerId +"/";
-        FilesTemplate template = templateService.getTemplate(customerId).get();
-        String fileName = template.getResourcePath(details);
-        return storageService.generateV4GetObjectSignedUrl(filePath, fileName);
+        return storageService.generateV4GetObjectSignedUrl(filePath, details.getName());
     }
 
     public Optional<Document> uploadCustomerFile(MultipartFile file, Customer customer, String businessId) {
